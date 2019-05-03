@@ -2,17 +2,17 @@
 
 A library for running Adafruit's TSL2561 Lux sensor board on the Raspberry Pi.
 
-This a neat little light sensor which measures the light hitting the sensor, and the values it provides can be converted into a lux value, a standard measurement of light.  
+This is a neat little light sensor which measures the light hitting the sensor, and the values it provides can be converted into a lux value, a standard measurement of light.  
 
-The TSL2561 actually has two light sensors:  channel 0 detects both visible and infra-red light, and channel 1 detects infra-red light.  From these you can calculate only the visible light in Lux.  There's also an interrupt pin which will go low whenever the value on channel 0 goes below or above thresholds which the user can set.
+The TSL2561 actually has two light sensors:  channel 0 detects both visible and infra-red light, and channel 1 detects only infra-red light.  From these you can calculate the visible light in lux.  There's also an interrupt pin which will go low whenever the value on channel 0 goes below or above thresholds which the user can set.  This allows you to trigger a pin on the Pi to react to the light exceeding the user-set threshold.
 
 # Using the library
 
-Begin by importing the TSL2561 library and create an instance of the device:
+Begin by importing the TSL2561 library and create an instance of the device.  The new sensor object needs to be given an i2c address: if you didn't hook the address pin on the board up to anything this should be `0x39`.
 
 ```
 import tsl2561
-tsl = tsl2561.TSL2561()
+tsl = tsl2561.TSL2561(0x39)
 ```
 
 Then turn the device on:
@@ -29,7 +29,7 @@ print(tsl.lux())
 
 One of the pins on the board is labelled `Int`, and this is the interrupt pin.  This pin is usually held high but will drop low under certain circumstances which the user can control.  It will then stay low until the user resets it.
 
-The `high` threshold which the light must rise above before the interrupt is triggered is set by `set_threshold_high(value)`, and the value which the light must drop below before the interrupt is triggered is set by `set_threshold_low(value)`.  The amount of time which these limits must be exceeded before the interrupt is asserted is set by `interrupt_persist(time)`, measured in the number of integration cycles which must pass.
+The `high` threshold which the light must rise above before the interrupt is triggered is set by `set_threshold_high(value)`, and the value which the light must drop below before the interrupt is triggered is set by `set_threshold_low(value)`.  The amount of time which these limits must be exceeded for before the interrupt is asserted is set by `interrupt_persist(time)`, measured in the number of integration cycles which must pass.  See the `integration_cycle()` function to see how long the integration cycle lasts.
 
 **It's important to remember that the threshold values are compared to the value coming out of channel 0, _not_ the Lux values**.  Channel 0  is usually a little lower than the Lux value, so you may need to use the first value returned by `data_read()` to tweak this.
 
