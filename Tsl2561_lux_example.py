@@ -3,7 +3,7 @@ import tsl2561
 import time
 
 #Create a sensor object
-tsl = tsl2561.TSL2561()
+tsl = tsl2561.TSL2561(0x39)
 
 #Reset the device
 tsl.turn_on(False)
