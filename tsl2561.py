@@ -3,9 +3,9 @@
 import os, fcntl, time
 
 class TSL2561:
-    def __init__(self):
+    def __init__(self, address):
         #Set the i2c address
-        self.address = 0x39
+        self.address = address
         self.slave = 0x0703
 
         #Create an i2c object for read/writing to and from the bus
