@@ -58,8 +58,11 @@ The device can run with different gain levels, essentially multiplying the readi
 This sets the integration cycle, the amount of time which the device measures light over before returning a result.  Must be given an integer from 0-3, inclusive.
   
   0 =  13.7 milliseconds
+  
   1 = 101 milliseconds
+  
   2 = 402 milliseconds
+  
   3 - manual
 
 A value of `3` - manual - requires you to start and stop integration periods using the `manual_integration` function.
@@ -73,8 +76,11 @@ This function is only useful when the `integration_cycle` is set to manual (mode
 The TSL2561 has an interrupt pin, normally held high, which will go low when certain conditions are met.  This function controls how the interrupt process works.
 
   0 = Interrupts disabled.
+  
   1 = Level interrupt (uses the pin on the board).
+  
   2 = SMBAlert.  This is not supported in this library.
+  
   3 = Test mode: sets the interrupt pin and also the SMBAlert.
  
  * **interrupt_persist(time)**
